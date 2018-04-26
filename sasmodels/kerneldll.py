@@ -121,6 +121,8 @@ if COMPILER == "unix":
     #COMPILE = "gcc-mp-4.7 -shared -fPIC -std=c99 -fopenmp -O2 -Wall %s -o %s -lm -lgomp"
     CC = "cc -shared -fPIC -std=c99 -O2 -Wall".split()
     # add openmp support if not running on a mac
+    if sys.platform == "darwin" and not os.path.exists("/Library/Developer/CommandLineTools/usr/bin/cc"):
+        raise RuntimeError("No compiler. Open Terminal.app and type 'cc' at the command prompt for more instructions.")
     if sys.platform != "darwin":
         CC.append("-fopenmp")
     def compile_command(source, output):
