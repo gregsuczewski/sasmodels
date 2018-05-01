@@ -124,7 +124,10 @@ if COMPILER == "unix":
         raise RuntimeError("No compiler. Open Terminal.app and type 'cc' at the command prompt for more instructions.")
     # add openmp support if not running on a mac
     if sys.platform != "darwin":
-        CC.append("-fopenmp")
+        # OpenMP seems to be broken on gcc 5.4.0 (ubuntu 16.04.9)
+        # Shut it off for all unix until we can investigate.
+        #CC.append("-fopenmp")
+        pass
     def compile_command(source, output):
         """unix compiler command"""
         return CC + [source, "-o", output, "-lm"]
