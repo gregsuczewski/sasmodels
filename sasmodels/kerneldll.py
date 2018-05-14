@@ -121,7 +121,10 @@ if COMPILER == "unix":
     #COMPILE = "gcc-mp-4.7 -shared -fPIC -std=c99 -fopenmp -O2 -Wall %s -o %s -lm -lgomp"
     CC = "cc -shared -fPIC -std=c99 -O2 -Wall".split()
     if sys.platform == "darwin" and not os.path.exists("/Library/Developer/CommandLineTools/usr/bin/cc"):
-        raise RuntimeError("No compiler. Open Terminal.app and type 'cc' at the command prompt for more instructions.")
+        raise RuntimeError('No compiler installed. Please follow instruction for\n'
+                'command line developers tools installation and restart SasView\n\n'
+                'Alternatively one can use OpenCL compiler,\n'
+                 'which can be setup from menu Fitting->OpenCL Options\n\n')
     # add openmp support if not running on a mac
     if sys.platform != "darwin":
         # OpenMP seems to be broken on gcc 5.4.0 (ubuntu 16.04.9)
