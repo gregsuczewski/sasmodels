@@ -63,6 +63,7 @@ parameters = [
 single = False
 
 source = ["lib/sas_3j1x_x.c", "linear_pearls.c"]
+have_Fq = True
 
 def random():
     radius = 10**np.random.uniform(1, 3) # 1 - 1000

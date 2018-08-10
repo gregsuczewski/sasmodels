@@ -88,3 +88,16 @@ double Iq(double q, double radius, double edge_sep,
 
     return form;
 }
+
+
+static void Fq(double q, double *F1, double *F2, double radius, double edge_sep,
+    double thick_string, double fp_num_pearls, double sld,
+    double string_sld, double solvent_sld)
+{
+    const int num_pearls = (int)(fp_num_pearls + 0.5); //Force integer number of pearls
+    const double form = pearl_necklace_kernel(q, radius, edge_sep,
+        thick_string, num_pearls, sld, string_sld, solvent_sld);
+
+    *F2 = form;
+    *F1 = form**(1./2.);
+}

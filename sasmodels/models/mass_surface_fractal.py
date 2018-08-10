@@ -93,6 +93,7 @@ parameters = [
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["mass_surface_fractal.c"]
+have_Fq = True
 
 def random():
     fractal_dim = np.random.uniform(0, 6)

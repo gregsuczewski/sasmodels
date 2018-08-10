@@ -65,6 +65,39 @@ Iq(double q,
     return 1.0e-4*answer;
 }
 
+static void
+Fq(double q,
+    double *F1,
+    double *F2,
+    double radius,
+    double thick_radius,
+    double thick_face,
+    double length,
+    double sld_core,
+    double sld_face,
+    double sld_rim,
+    double sld_solvent)
+{
+    // set up the integration end points
+    const double uplim = M_PI_4;
+    const double halflength = 0.5*length;
+
+    double total = 0.0;
+    for(int i=0;i<GAUSS_N;i++) {
+        double theta = (GAUSS_Z[i] + 1.0)*uplim;
+        double sin_theta, cos_theta; // slots to hold sincos function output
+        SINCOS(theta, sin_theta, cos_theta);
+        double fq = bicelle_kernel(q*sin_theta, q*cos_theta, radius, thick_radius, thick_face,
+                                   halflength, sld_core, sld_face, sld_rim, sld_solvent);
+        total += GAUSS_W[i]*fq*fq*sin_theta;
+    }
+
+    // calculate value of integral to return
+    double answer = total*uplim;
+    *F2 = 1.0e-4*answer;
+    *F1 = (1.0e-4*answer)**(1./2.);
+}
+
 static double
 Iqac(double qab, double qc,
     double radius,

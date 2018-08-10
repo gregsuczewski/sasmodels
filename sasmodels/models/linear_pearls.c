@@ -74,3 +74,26 @@ double Iq(double q,
 
 	return result;
 }
+
+
+static void Fq(double q,
+            double *F1,
+            double *F2,
+            double radius,
+            double edge_sep,
+            double fp_num_pearls,
+            double pearl_sld,
+            double solvent_sld)
+{
+
+    int num_pearls = (int)(fp_num_pearls + 0.5);
+	double result = linear_pearls_kernel(q,
+                    radius,
+                    edge_sep,
+                    num_pearls,
+                    pearl_sld,
+                    solvent_sld);
+
+	*F2 = result;
+	*F1 = result**(1./2.);
+}

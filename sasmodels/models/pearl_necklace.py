@@ -94,6 +94,7 @@ parameters = [["radius", "Ang", 80.0, [0, inf], "volume",
 
 source = ["lib/sas_Si.c", "lib/sas_3j1x_x.c", "pearl_necklace.c"]
 single = False  # use double precision unless told otherwise
+have_Fq = True
 
 def volume(radius, edge_sep, thick_string, num_pearls):
     """

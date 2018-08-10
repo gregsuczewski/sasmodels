@@ -114,6 +114,7 @@ parameters = [
     ]
 
 source = ["lamellar_hg_stack_caille.c"]
+have_Fq = True
 
 # No volume normalization despite having a volume parameter
 # This should perhaps be volume normalized?

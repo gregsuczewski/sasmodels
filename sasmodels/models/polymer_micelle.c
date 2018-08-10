@@ -85,3 +85,42 @@ double Iq(double q,
             d_penetration,
             n_aggreg);
 }
+
+static void Fq(double q,
+        double *F1,
+        double *F2,
+        double ndensity,
+        double v_core,
+        double v_corona,
+        double solvent_sld,
+        double core_sld,
+        double corona_sld,
+        double radius_core,
+        double rg,
+        double d_penetration,
+        double n_aggreg)
+{
+    *F2 = micelle_spherical_kernel(q,
+            ndensity,
+            v_core,
+            v_corona,
+            solvent_sld,
+            core_sld,
+            corona_sld,
+            radius_core,
+            rg,
+            d_penetration,
+            n_aggreg);
+
+    *F1 = micelle_spherical_kernel(q,
+            ndensity,
+            v_core,
+            v_corona,
+            solvent_sld,
+            core_sld,
+            corona_sld,
+            radius_core,
+            rg,
+            d_penetration,
+            n_aggreg)**(1./2.);
+}

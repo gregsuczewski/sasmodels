@@ -68,3 +68,35 @@ Iq(double q,
            n_shells);
 }
 
+static void
+Fq(double q,
+          double *F1,
+          double *F2,
+          double volfraction,
+          double radius,
+          double thick_shell,
+          double thick_solvent,
+          double sld_solvent,
+          double sld,
+          double fp_n_shells)
+{
+    int n_shells = (int)(fp_n_shells + 0.5);
+    *F2= multilayer_vesicle_kernel(q,
+           volfraction,
+           radius,
+           thick_shell,
+           thick_solvent,
+           sld_solvent,
+           sld,
+           n_shells);
+           
+    *F1= multilayer_vesicle_kernel(q,
+           volfraction,
+           radius,
+           thick_shell,
+           thick_solvent,
+           sld_solvent,
+           sld,
+           n_shells)**(1./2.);
+}
+

@@ -75,6 +75,7 @@ parameters = [["radius",        "Ang", 10.0, [0, inf],   "",
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["lib/sas_3j1x_x.c", "lib/sas_gamma.c", "surface_fractal.c"]
+have_Fq = True
 
 def random():
     radius = 10**np.random.uniform(1, 4)

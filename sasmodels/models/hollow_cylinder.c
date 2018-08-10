@@ -50,6 +50,29 @@ Iq(double q, double radius, double thickness, double length,
     return _hollow_cylinder_scaling(Aq, solvent_sld - sld, volume);
 }
 
+static void
+Fq(double q, double *F1, double *F2, double radius, double thickness, double length,
+    double sld, double solvent_sld)
+{
+    const double lower = 0.0;
+    const double upper = 1.0;        //limits of numerical integral
+
+    double summ = 0.0;            //initialize intergral
+    for (int i=0;i<GAUSS_N;i++) {
+        const double cos_theta = 0.5*( GAUSS_Z[i] * (upper-lower) + lower + upper );
+        const double sin_theta = sqrt(1.0 - cos_theta*cos_theta);
+        const double form = _fq(q*sin_theta, q*cos_theta,
+                                radius, thickness, length);
+        summ += GAUSS_W[i] * form * form;
+    }
+
+    const double Aq = 0.5*summ*(upper-lower);
+    const double volume = form_volume(radius, thickness, length);
+    *F2 = _hollow_cylinder_scaling(Aq, solvent_sld - sld, volume);
+    *F1 = (_hollow_cylinder_scaling(Aq, solvent_sld - sld, volume))**(1./2.);
+}
+
+
 static double
 Iqac(double qab, double qc,
     double radius, double thickness, double length,

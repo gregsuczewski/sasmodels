@@ -137,6 +137,7 @@ parameters = [["dnn",         "Ang",       220.0, [0.0, inf],  "",            "N
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["lib/sas_3j1x_x.c", "lib/sphere_form.c", "lib/gauss150.c", "sc_paracrystal.c"]
+have_Fq = True
 
 def random():
     # copied from bcc_paracrystal

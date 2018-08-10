@@ -109,6 +109,7 @@ parameters = [["radius_lg", "Ang", 100, [0, inf], "",
              ]
 
 source = ["lib/sas_3j1x_x.c", "binary_hard_sphere.c"]
+have_Fq = True
 
 def random():
     # TODO: binary_hard_sphere fails at low qr

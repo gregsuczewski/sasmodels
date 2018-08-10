@@ -78,6 +78,44 @@ static double Iq(double q, double dnn,
     return fcc_volume_fraction(radius, dnn) * Pq * Zq;
 }
 
+static void Fq(double q, double *F1, double *F2, double dnn,
+  double d_factor, double radius,
+  double sld, double solvent_sld)
+{
+    // translate a point in [-1,1] to a point in [0, 2 pi]
+    const double phi_m = M_PI;
+    const double phi_b = M_PI;
+    // translate a point in [-1,1] to a point in [0, pi]
+    const double theta_m = M_PI_2;
+    const double theta_b = M_PI_2;
+
+    double outer_sum = 0.0;
+    for(int i=0; i<GAUSS_N; i++) {
+        double inner_sum = 0.0;
+        const double theta = GAUSS_Z[i]*theta_m + theta_b;
+        double sin_theta, cos_theta;
+        SINCOS(theta, sin_theta, cos_theta);
+        const double qc = q*cos_theta;
+        const double qab = q*sin_theta;
+        for(int j=0;j<GAUSS_N;j++) {
+            const double phi = GAUSS_Z[j]*phi_m + phi_b;
+            double sin_phi, cos_phi;
+            SINCOS(phi, sin_phi, cos_phi);
+            const double qa = qab*cos_phi;
+            const double qb = qab*sin_phi;
+            const double form = fcc_Zq(qa, qb, qc, dnn, d_factor);
+            inner_sum += GAUSS_W[j] * form;
+        }
+        inner_sum *= phi_m;  // sum(f(x)dx) = sum(f(x)) dx
+        outer_sum += GAUSS_W[i] * inner_sum * sin_theta;
+    }
+    outer_sum *= theta_m;
+    const double Zq = outer_sum/(4.0*M_PI);
+    const double Pq = sphere_form(q, radius, sld, solvent_sld);
+
+    *F2 = fcc_volume_fraction(radius, dnn) * Pq * Zq;
+    *F1 = (fcc_volume_fraction(radius, dnn) * Pq * Zq)**(1./2.);
+}
 
 static double Iqabc(double qa, double qb, double qc,
     double dnn, double d_factor, double radius,

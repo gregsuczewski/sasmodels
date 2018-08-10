@@ -72,6 +72,62 @@ double Iq(double q,
 }
 
 
+static void Fq(double q, double *F1, double *F2,
+    double lg_radius, double sm_radius,
+    double lg_vol_frac, double sm_vol_frac,
+    double lg_sld, double sm_sld, double solvent_sld)
+    
+{
+    double r2,r1,nf2,phi,aa,rho2,rho1,rhos,inten;       //my local names
+    double psf11,psf12,psf22;
+    double phi1,phi2,phr,a3;
+    double v1,v2,n1,n2,qr1,qr2,b1,b2,sc1,sc2;
+    
+    r2 = lg_radius;
+    r1 = sm_radius;
+    phi2 = lg_vol_frac;
+    phi1 = sm_vol_frac;
+    rho2 = lg_sld;
+    rho1 = sm_sld;
+    rhos = solvent_sld;
+    
+    
+    phi = phi1 + phi2;
+    aa = r1/r2;
+    //calculate the number fraction of larger spheres (eqn 2 in reference)
+    a3=aa*aa*aa;
+    phr=phi2/phi;
+    nf2 = phr*a3/(1.0-phr+phr*a3);
+    // calculate the PSF's here
+    calculate_psfs(q,r2,nf2,aa,phi,&psf11,&psf22,&psf12);
+    
+    // /* do form factor calculations  */
+    
+    v1 = M_4PI_3*r1*r1*r1;
+    v2 = M_4PI_3*r2*r2*r2;
+    
+    n1 = phi1/v1;
+    n2 = phi2/v2;
+    
+    qr1 = r1*q;
+    qr2 = r2*q;
+
+    sc1 = sas_3j1x_x(qr1);
+    sc2 = sas_3j1x_x(qr2);
+    b1 = r1*r1*r1*(rho1-rhos)*M_4PI_3*sc1;
+    b2 = r2*r2*r2*(rho2-rhos)*M_4PI_3*sc2;
+    inten = n1*b1*b1*psf11;
+    inten += sqrt(n1*n2)*2.0*b1*b2*psf12;
+    inten += n2*b2*b2*psf22;
+    ///* convert I(1/A) to (1/cm)  */
+    inten *= 1.0e8;
+    ///*convert rho^2 in 10^-6A to A*/
+    inten *= 1.0e-12;    
+    *F2 = inten;
+    *F1 = inten**(1./2.);
+}
+
+
 void calculate_psfs(double qval,
     double r2, double nf2,
     double aa, double phi,

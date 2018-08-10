@@ -84,6 +84,7 @@ parameters = [["rg_squared", "Ang^2", 100.0, [0.0, inf], "", "Ensemble radius of
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["star_polymer.c"]
+have_Fq = True
 
 def random():
     pars = dict(

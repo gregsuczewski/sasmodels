@@ -139,6 +139,43 @@ Iq(
                     solvent_sld);
 }
 
+static void
+Fq(
+    double q,
+    double *F1,
+    double *F2,
+    double thick_core,
+    double thick_layer,
+    double radius,
+    double fp_n_stacking,
+    double sigma_dnn,
+    double core_sld,
+    double layer_sld,
+    double solvent_sld)
+{
+    int n_stacking = (int)(fp_n_stacking + 0.5);
+    *F2 = stacked_disks_1d(q,
+                    thick_core,
+                    thick_layer,
+                    radius,
+                    n_stacking,
+                    sigma_dnn,
+                    core_sld,
+                    layer_sld,
+                    solvent_sld);
+    *F1 = stacked_disks_1d(q,
+                    thick_core,
+                    thick_layer,
+                    radius,
+                    n_stacking,
+                    sigma_dnn,
+                    core_sld,
+                    layer_sld,
+                    solvent_sld)**(1./2.);
+
+}
+
+
 
 static double
 Iqac(double qab, double qc,

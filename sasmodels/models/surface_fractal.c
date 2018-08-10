@@ -47,3 +47,15 @@ double Iq(double q,
 {
     return _surface_fractal_kernel(q, radius, fractal_dim_surf, cutoff_length);
 }
+
+static void Fq(double q,
+    double *F1,
+    double *F2,
+    double radius,
+    double fractal_dim_surf,
+    double cutoff_length
+    )
+{
+    *F2 = _surface_fractal_kernel(q, radius, fractal_dim_surf, cutoff_length);
+    *F1 = _surface_fractal_kernel(q, radius, fractal_dim_surf, cutoff_length)**(1./2.);
+}

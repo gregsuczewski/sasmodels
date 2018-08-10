@@ -24,3 +24,9 @@ double Iq(double q, double radius2, double arms)
 {
     return star_polymer_kernel(q, radius2, arms);
 }
+
+static void Fq(double q, double *F1, double *F2, double radius2, double arms)
+{
+    *F2 = star_polymer_kernel(q, radius2, arms);
+    *F1 = star_polymer_kernel(q, radius2, arms)**(1./2.);
+}

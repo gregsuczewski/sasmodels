@@ -43,6 +43,22 @@ Iq(double q,
     return 1.0e-4 * s * s * orient_avg_1D(q, radius, length);
 }
 
+static void
+Fq(double q,
+    double *F1,
+    double *F2,
+    double sld,
+    double solvent_sld,
+    double radius,
+    double length)
+{
+    const double s = (sld - solvent_sld) * form_volume(radius, length);
+    *F2 = 1.0e-4 * s * s * orient_avg_1D(q, radius, length);
+    *F1 = (1.0e-4 * s * s * orient_avg_1D(q, radius, length))**(1./2.);
+}
+
+
+
 static double
 Iqac(double qab, double qc,
     double sld,
@@ -54,3 +70,4 @@ Iqac(double qab, double qc,
     const double form = fq(qab, qc, radius, length);
     return 1.0e-4 * square(s * form);
 }
+

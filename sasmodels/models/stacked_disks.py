@@ -144,6 +144,7 @@ parameters = [
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["lib/polevl.c", "lib/sas_J1.c", "lib/gauss76.c", "stacked_disks.c"]
+have_Fq = True
 
 def random():
     radius = 10**np.random.uniform(1, 4.7)

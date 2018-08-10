@@ -72,3 +72,25 @@ double Iq(double q,
     return result;
 }
 
+static void Fq(double q,
+          double *F1,
+          double *F2,
+          double length,
+          double kuhn_length,
+          double radius,
+          double axis_ratio,
+          double sld,
+          double solvent_sld)
+{
+
+    double result = flexible_cylinder_ex_kernel(q,
+                    length,
+                    kuhn_length,
+                    radius,
+                    axis_ratio,
+                    sld,
+                    solvent_sld);
+
+    *F2 = result;
+    *F1 = result**(1./2.);
+}

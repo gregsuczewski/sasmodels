@@ -117,3 +117,21 @@ double Iq(
     double volume = M_PI*radius*radius*thickness;
     return 1.0e-4*form * square(contrast * volume);
 }
+
+static void Fq(
+    double q,
+    double *F1,
+    double *F2,
+    double radius,
+    double thickness,
+    double alpha,
+    double beta,
+    double sld,
+    double sld_solvent)
+{
+    double form = _integrate_psi(q, radius, thickness, alpha, beta);
+    double contrast = sld - sld_solvent;
+    double volume = M_PI*radius*radius*thickness;
+    *F2 = 1.0e-4*form * square(contrast * volume);
+    *F1 = (1.0e-4*form * square(contrast * volume))**(1./2.);
+}

@@ -134,6 +134,7 @@ parameters = [["dnn",         "Ang",       220,    [-inf, inf], "",            "
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["lib/sas_3j1x_x.c", "lib/gauss150.c", "lib/sphere_form.c", "bcc_paracrystal.c"]
+have_Fq = True
 
 def random():
     # Define lattice spacing as a multiple of the particle radius

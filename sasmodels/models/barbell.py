@@ -116,6 +116,7 @@ parameters = [["sld",         "1e-6/Ang^2",   4, [-inf, inf], "sld",         "Ba
 
 source = ["lib/polevl.c", "lib/sas_J1.c", "lib/gauss76.c", "barbell.c"]
 
+have_Fq = True
 def random():
     # TODO: increase volume range once problem with bell radius is fixed
     # The issue is that bell radii of more than about 200 fail at high q

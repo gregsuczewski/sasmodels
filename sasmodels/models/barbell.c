@@ -88,6 +88,33 @@ Iq(double q, double sld, double solvent_sld,
 }
 
 
+static void
+Fq(double q,double *F1, double *F2, double sld, double solvent_sld,
+    double radius_bell, double radius, double length)
+{
+    const double h = -sqrt(radius_bell*radius_bell - radius*radius);
+    const double half_length = 0.5*length;
+
+    // translate a point in [-1,1] to a point in [0, pi/2]
+    const double zm = M_PI_4;
+    const double zb = M_PI_4;
+    double total = 0.0;
+    for (int i = 0; i < GAUSS_N; i++){
+        const double alpha= GAUSS_Z[i]*zm + zb;
+        double sin_alpha, cos_alpha; // slots to hold sincos function output
+        SINCOS(alpha, sin_alpha, cos_alpha);
+        const double Aq = _fq(q*sin_alpha, q*cos_alpha, h, radius_bell, radius, half_length);
+        total += GAUSS_W[i] * Aq * Aq * sin_alpha;
+    }
+    // translate dx in [-1,1] to dx in [lower,upper]
+    const double form = total*zm;
+
+    //Contrast
+    const double s = (sld - solvent_sld);
+    *F2 = 1.0e-4 * s * s * form;
+    *F1 = (1.0e-4 * s * s * form)**(1./2.);
+}
+
 static double
 Iqac(double qab, double qc,
     double sld, double solvent_sld,

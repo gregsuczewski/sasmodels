@@ -73,6 +73,7 @@ parameters = [
 
 source = ["lib/polevl.c", "lib/sas_J0.c", "lib/sas_J1.c", \
           "lib/sas_JN.c", "lib/gauss76.c", "pringle.c"]
+have_Fq = True
 
 def ER(radius, thickness, alpha, beta):
     """

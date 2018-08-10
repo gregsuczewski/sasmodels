@@ -112,6 +112,7 @@ parameters = [
 
 source = ["lib/polevl.c", "lib/sas_J1.c", "lib/gauss76.c", "lib/wrc_cyl.c",
           "flexible_cylinder_elliptical.c"]
+have_Fq = True
 
 def random():
     length = 10**np.random.uniform(2, 6)

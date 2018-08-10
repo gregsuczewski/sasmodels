@@ -69,6 +69,7 @@ parameters = [["guinier_scale",    "cm^-1",   1.7, [-inf, inf], "", "Guinier len
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["gel_fit.c"]
+have_Fq = True
 
 def random():
     guinier_scale = 10**np.random.uniform(1, 3)

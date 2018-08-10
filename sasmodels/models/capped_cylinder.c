@@ -112,6 +112,37 @@ Iq(double q, double sld, double solvent_sld,
     return 1.0e-4 * s * s * form;
 }
 
+static void
+Fq(double q,double *F1, double *F2, double sld, double solvent_sld,
+    double radius, double radius_cap, double length)
+{
+    const double h = sqrt(radius_cap*radius_cap - radius*radius);
+    const double half_length = 0.5*length;
+
+    // translate a point in [-1,1] to a point in [0, pi/2]
+    const double zm = M_PI_4;
+    const double zb = M_PI_4;
+    double total = 0.0;
+    for (int i=0; i<GAUSS_N ;i++) {
+        const double theta = GAUSS_Z[i]*zm + zb;
+        double sin_theta, cos_theta; // slots to hold sincos function output
+        SINCOS(theta, sin_theta, cos_theta);
+        const double qab = q*sin_theta;
+        const double qc = q*cos_theta;
+        const double Aq = _fq(qab, qc, h, radius_cap, radius, half_length);
+        // scale by sin_theta for spherical coord integration
+        total += GAUSS_W[i] * Aq * Aq * sin_theta;
+    }
+    // translate dx in [-1,1] to dx in [lower,upper]
+    const double form = total * zm;
+
+    // Contrast
+    const double s = (sld - solvent_sld);
+    *F2 = 1.0e-4 * s * s * form;
+    *F1 = (1.0e-4 * s * s * form)**(1./2.);
+
+}
+
 
 static double
 Iqac(double qab, double qc,

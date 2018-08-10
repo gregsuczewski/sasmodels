@@ -133,6 +133,7 @@ parameters = [
 
 source = ["rpa.c"]
 single = False
+have_Fq = True
 
 control = "case_num"
 HIDE_ALL = set("Phi4".split())

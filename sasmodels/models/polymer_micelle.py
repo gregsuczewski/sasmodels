@@ -110,6 +110,7 @@ parameters = [
 single = False
 
 source = ["lib/sas_3j1x_x.c", "polymer_micelle.c"]
+have_Fq = True
 
 def random():
     radius_core = 10**np.random.uniform(1, 3)

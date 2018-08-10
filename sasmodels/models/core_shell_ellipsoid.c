@@ -73,6 +73,46 @@ Iq(double q,
     return 1.0e-4 * total;
 }
 
+static void
+Fq(double q,
+    double *F1,
+    double *F2,
+    double radius_equat_core,
+    double x_core,
+    double thick_shell,
+    double x_polar_shell,
+    double core_sld,
+    double shell_sld,
+    double solvent_sld)
+{
+    const double sld_core_shell = core_sld - shell_sld;
+    const double sld_shell_solvent = shell_sld - solvent_sld;
+
+    const double polar_core = radius_equat_core*x_core;
+    const double equat_shell = radius_equat_core + thick_shell;
+    const double polar_shell = radius_equat_core*x_core + thick_shell*x_polar_shell;
+
+    // translate from [-1, 1] => [0, 1]
+    const double m = 0.5;
+    const double b = 0.5;
+    double total = 0.0;     //initialize intergral
+    for(int i=0;i<GAUSS_N;i++) {
+        const double cos_theta = GAUSS_Z[i]*m + b;
+        const double sin_theta = sqrt(1.0 - cos_theta*cos_theta);
+        double fq = _cs_ellipsoid_kernel(q*sin_theta, q*cos_theta,
+            radius_equat_core, polar_core,
+            equat_shell, polar_shell,
+            sld_core_shell, sld_shell_solvent);
+        total += GAUSS_W[i] * fq * fq;
+    }
+    total *= m;
+
+    // convert to [cm-1]
+    *F2 = 1.0e-4 * total;
+    *F1 = (1.0e-4 * total)**(1./2.);
+}
+
+
 static double
 Iqac(double qab, double qc,
     double radius_equat_core,

@@ -67,6 +67,7 @@ parameters = [["sld", "1e-6/Ang^2", 1, [-inf, inf], "sld",
              ]
 
 source = ["lib/sas_3j1x_x.c", "lib/sphere_form.c", "sphere.c"]
+have_Fq = True
 
 
 def ER(radius):

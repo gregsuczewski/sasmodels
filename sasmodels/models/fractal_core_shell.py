@@ -95,6 +95,7 @@ parameters = [
 
 source = ["lib/sas_3j1x_x.c", "lib/sas_gamma.c", "lib/core_shell.c",
           "lib/fractal_sq.c", "fractal_core_shell.c"]
+have_Fq = True
 
 def random():
     outer_radius = 10**np.random.uniform(0.7, 4)

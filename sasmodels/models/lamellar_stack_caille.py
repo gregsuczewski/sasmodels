@@ -98,6 +98,7 @@ parameters = [
 # pylint: enable=bad-whitespace, line-too-long
 
 source = ["lamellar_stack_caille.c"]
+have_Fq = True
 
 def random():
     total_thickness = 10**np.random.uniform(2, 4.7)
